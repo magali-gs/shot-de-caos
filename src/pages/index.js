@@ -21,6 +21,11 @@ export default ({ data }) => {
       <Seo title="Home" />
       <div>
         <h1>Shot de Caos</h1>
+        <p>
+          Shot de Caos é o lugar onde o caótico e o inesperado são servidos em
+          contos curtos e impactantes.
+        </p>
+        <h4>{data.allMarkdownRemark.totalCount} Posts</h4>
         {data.allMarkdownRemark.edges.map(({ node }) => (
           <div key={node.id}>
             <BlogLink to={node.fields.slug}>
@@ -31,7 +36,6 @@ export default ({ data }) => {
             <p>{node.excerpt}</p>
           </div>
         ))}
-        <h4>{data.allMarkdownRemark.totalCount}</h4>
       </div>
     </Layout>
   )
