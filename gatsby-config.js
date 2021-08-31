@@ -1,7 +1,8 @@
 module.exports = {
   siteMetadata: {
     title: `Shot de Caos`,
-    description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
+    subtitle: `Roberto Brecht`,
+    description: `Shot de Caos é o lugar onde o caótico e o inesperado são servidos em contos curtos e impactantes.`,
     author: `@gatsbyjs`,
     siteUrl: `https://gatsbystarterdefaultsource.gatsbyjs.io/`,
   },
