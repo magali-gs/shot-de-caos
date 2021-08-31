@@ -1,43 +1,71 @@
 import * as React from "react"
 import Layout from "../components/layout"
+import { Link, graphql } from "gatsby"
+import styled from "styled-components"
 
-const HistoriasPage = () => (
-  <Layout>
-    <h2>Histórias</h2>
-    <p>
-      Roberto Brecht é o autor do Shot de Caos, uma série onde o caótico e o
-      inesperado são servidos em contos curtos e impactantes.
-    </p>
-    <h3>Contos de Amor</h3>
-    <p>
-      Encontros, desencontros, paixões, dramas, romances e amor nessa sequência
-      de contos que fogem do convencional e mostram que tudo é possível.
-      Prepare-se para se apaixonar com este compilado com as principais
-      histórias e contos de amor do Shot de Caos!
-    </p>
-    <h3>Contos da Sociedade</h3>
-    <p>
-      A própria sociedade é a inspiração para este compilado de contos, que
-      mostra toda a desigualdade, injustiça, preconceito e até mesmo a compaixão
-      que está dentro da nossa cultura e de nós mesmos. Descubra um pouco mais
-      sobre o mundo em que vivemos com os contos do Shot de Caos! Por Roberto
-      Brecht
-    </p>
-    <h3>Contos de Reflexão</h3>
-    <p>
-      Mergulhe em si mesmo com os principais contos sobre a mente e o coração do
-      Shot de Caos! Um compilado especial com os contos mais profundos do Shot
-      de Caos que farão você refletir sobre tudo que sabe sobre você. Por
-      Roberto Brecht
-    </p>
-    <h3>Contos de Terror</h3>
-    <p>
-      Morte, violência, medo, fantasmas, monstros reais e imaginários se
-      encontram nesses contos caóticos onde não é possível saber se o terror irá
-      ou não vencer. Prepare-se para o horror, com este compilado com as
-      principais histórias e contos de terror do Shot de Caos!
-    </p>
-  </Layout>
-)
+const ContoTitle = styled.h3`
+  margin-bottom: 20px;
+`
+const ContoLink = styled(Link)`
+  display: inline;
+  margin-bottom: 10px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  text-decoration: none;
+  color: inherit;
+  border-radius: 1em 0 1em 0;
+  background-image: linear-gradient(
+    -100deg,
+    rgba(255, 250, 150, 0.15),
+    rgba(255, 250, 150, 0.8) 100%,
+    rgba(255, 250, 150, 0.25)
+  );
+`
+
+const ContoDate = styled.p`
+  font-size: 0.8rem;
+`
+
+const HistoriasPage = ({ data }) => {
+  return (
+    <Layout>
+      <h2>Histórias</h2>
+      <p>
+        Roberto Brecht é o autor do Shot de Caos, uma série onde o caótico e o
+        inesperado são servidos em contos curtos e impactantes.
+      </p>
+      <p>{data.allMarkdownRemark.totalCount} contos</p>
+      {data.allMarkdownRemark.edges.map(({ node }) => (
+        <div key={node.id}>
+          <ContoLink to={node.fields.slug}>{node.frontmatter.title}</ContoLink>
+          <ContoDate>{node.frontmatter.date}</ContoDate>
+          <p>{node.excerpt}</p>
+        </div>
+      ))}
+    </Layout>
+  )
+}
 
 export default HistoriasPage
+
+export const query = graphql`
+  query {
+    allMarkdownRemark(sort: { fields: [frontmatter___date], order: DESC }) {
+      totalCount
+      edges {
+        node {
+          id
+          frontmatter {
+            date
+            description
+            title
+          }
+          fields {
+            slug
+          }
+          excerpt
+        }
+      }
+    }
+  }
+`
